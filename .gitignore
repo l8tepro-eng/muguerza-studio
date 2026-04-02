@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+
+# Archivos sensibles (contienen API keys)
+.mcp.json
+.claude/
+
+# Archivos de otros proyectos (no son la landing)
+workflows/
+plan_muguerza.js
+claude.md
+Audiencias_MetaAds_Muguerza.html
+Plan_MetaAds_Muguerza_Mes1.docx
+Plan_MetaAds_Muguerza_Mes1.pdf
+package.json
+package-lock.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
