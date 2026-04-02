@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muguerza · Taller & Estudio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --linen:    #F5F0EA;
+      --linen-dk: #EDE6DC;
+      --charcoal: #0F0D0B;
+      --mink:     #8A7A6A;
+      --terra:    #C4A052;
+      --cream:    #FAF7F2;
+      --warm-dk:  #111009;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom cursor ── */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--terra);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid var(--charcoal);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, transform 0.08s linear;
+    }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--terra);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.35s; }
+    .reveal-delay-4 { transition-delay: 0.5s; }
+
+    /* ── Fabric texture mixin (applied to photo placeholders) ── */
+    .photo {
+      background-color: #D9CFC5;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.018) 3px, rgba(0,0,0,0.018) 6px),
+        repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(255,255,255,0.07) 3px, rgba(255,255,255,0.07) 6px);
+      overflow: hidden;
+      position: relative;
+    }
+    .photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .photo:hover img { transform: scale(1.04); }
+    .photo-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 24px 20px 16px;
+      background: linear-gradient(transparent, rgba(28,25,22,0.55));
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .photo:hover .photo-label { opacity: 1; }
+
+    /* Placeholder tones for each photo slot */
+    .ph-1 { background-color: #CFC8BB; }
+    .ph-2 { background-color: #D8D0C6; }
+    .ph-3 { background-color: #C5BAB0; }
+    .ph-4 { background-color: #DDD7CF; }
+    .ph-5 { background-color: #E0DAD2; }
+    .ph-6 { background-color: #C8BDB2; }
+    .ph-7 { background-color: #D2C9C0; }
+    .ph-8 { background-color: #CAC1B8; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      mix-blend-mode: multiply;
+      transition: background 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(251,248,244,0.92);
+      backdrop-filter: blur(12px);
+      mix-blend-mode: normal;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .nav-logo img { filter: none; transition: opacity 0.3s; }
+    .nav-logo img:hover { opacity: 0.75; }
+    .nav-center {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mink);
+    }
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--charcoal);
+      border-bottom: 1px solid var(--charcoal);
+      padding-bottom: 2px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .nav-cta:hover { color: var(--terra); border-color: var(--terra); }
+
+    /* ── Hero vídeo ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Overlay degradado: más oscuro arriba y abajo */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(10,8,6,0.55) 0%,
+          rgba(10,8,6,0.20) 40%,
+          rgba(10,8,6,0.20) 60%,
+          rgba(10,8,6,0.65) 100%);
+      pointer-events: none;
+    }
+
+    /* Contenido centrado sobre el vídeo */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 52px;
+    }
+
+    /* Logo directo sobre el vídeo */
+    .hero-logo-panel {
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeDown 1.2s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .hero-logo-panel img {
+      width: clamp(320px, 52vw, 700px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 40px rgba(0,0,0,0.5));
+    }
+
+    /* Botón WhatsApp hero */
+    .btn-wa-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #fff;
+      color: var(--charcoal);
+      text-decoration: none;
+      padding: 18px 44px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.35s, color 0.35s, transform 0.35s, box-shadow 0.35s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      animation: fadeUp 1.2s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .btn-wa-hero:hover {
+      background: var(--terra);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    }
+    .btn-wa-hero svg { flex-shrink: 0; }
+
+    /* Indicador scroll */
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: fadeUp 1.4s 0.6s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .hero-scroll span {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.5; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); }
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--charcoal);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Cormorant Garamond', serif;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn-whatsapp:hover { background: var(--terra); transform: translateY(-2px); }
+    .btn-whatsapp svg { flex-shrink: 0; }
+
+    .btn-ghost {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--mink);
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: color 0.3s;
+    }
+    .btn-ghost:hover { color: var(--charcoal); }
+
+    /* ── Marquee strip ── */
+    .strip {
+      background: var(--charcoal);
+      padding: 18px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .strip-inner {
+      display: inline-flex;
+      animation: marquee 20s linear infinite;
+    }
+    .strip-inner span {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      padding: 0 32px;
+    }
+    .strip-inner .dot {
+      color: var(--terra);
+      padding: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Intro ── */
+    .intro {
+      padding: 120px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      background: var(--cream);
+    }
+    .intro-quote {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.3;
+      color: var(--charcoal);
+    }
+    .intro-quote em {
+      color: var(--terra);
+      font-style: normal;
+    }
+    .intro-body {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .intro-body p {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--mink);
+    }
+    .intro-body p strong {
+      color: var(--charcoal);
+      font-weight: 400;
+    }
+    .intro-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 16px;
+      padding-top: 32px;
+      border-top: 1px solid var(--linen-dk);
+    }
+    .stat-n {
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--charcoal);
+      line-height: 1;
+    }
+    .stat-n sup { font-size: 20px; color: var(--terra); }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mink);
+      margin-top: 4px;
+    }
+
+    /* ── Portfolio ── */
+    .portfolio {
+      padding: 80px 48px 120px;
+      background: var(--linen);
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mink);
+    }
+    .section-label {
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 300;
+      line-height: 1;
+      color: var(--charcoal);
+    }
+    .section-link {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mink);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: color 0.3s;
+    }
+    .section-link:hover { color: var(--terra); }
+
+    /* Mosaic puzzle grid — 5 columns, 3 rows with fixed heights */
+    .grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1.2fr 1fr 1.6fr;
+      grid-template-rows: 310px 210px 280px;
+      gap: 8px;
+    }
+
+    /* Row 1–2: g1 y g4 son torres verticales en los extremos */
+    .g1 { grid-column: 1;     grid-row: 1 / 3; } /* torre izquierda */
+    .g2 { grid-column: 2;     grid-row: 1;     } /* bloque medio-alto */
+    .g3 { grid-column: 3 / 5; grid-row: 1;     } /* pieza ancha central */
+    .g4 { grid-column: 5;     grid-row: 1 / 3; } /* torre derecha */
+    /* Row 2 interior */
+    .g5 { grid-column: 2 / 4; grid-row: 2;     } /* pieza ancha baja izquierda */
+    .g6 { grid-column: 4;     grid-row: 2;     } /* cuadrado pequeño */
+    /* Row 3: franja completa */
+    .g7 { grid-column: 1 / 3; grid-row: 3;     } /* ancha baja izquierda */
+    .g8 { grid-column: 3;     grid-row: 3;     } /* estrecha central */
+    .g9 { grid-column: 4 / 6; grid-row: 3;     } /* ancha baja derecha */
+
+    /* Photo placeholder label overlay */
+    .photo-slot-info {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      pointer-events: none;
+    }
+    .photo-slot-info span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* ── Services ── */
+    .services {
+      background: var(--warm-dk);
+      padding: 80px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+    }
+    .service-card {
+      padding: 48px 40px;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .service-card:last-child { border-right: none; }
+    .service-number {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--terra);
+      margin-bottom: 32px;
+      display: block;
+    }
+    .service-name {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .service-desc {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── Locations ── */
+    .locations {
+      padding: 80px 48px;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      gap: 80px;
+    }
+    .location-title {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mink);
+      margin-bottom: 20px;
+    }
+    .location-cities {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--charcoal);
+    }
+    .location-cities em {
+      font-style: italic;
+      color: var(--terra);
+    }
+    .location-body {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--mink);
+      max-width: 380px;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      background: var(--linen);
+      padding: 140px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: 'MUGUERZA';
+      position: absolute;
+      font-size: clamp(100px, 16vw, 200px);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(155,139,122,0.15);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .cta-tag {
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mink);
+      margin-bottom: 24px;
+    }
+    .cta-heading {
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+    }
+    .cta-heading em {
+      font-style: italic;
+      color: var(--terra);
+    }
+    .cta-sub {
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--mink);
+      margin-bottom: 56px;
+    }
+    .btn-whatsapp-lg {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--charcoal);
+      color: #fff;
+      text-decoration: none;
+      padding: 22px 48px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: background 0.3s, letter-spacing 0.3s, transform 0.3s;
+    }
+    .btn-whatsapp-lg:hover {
+      background: var(--terra);
+      letter-spacing: 0.28em;
+      transform: translateY(-3px);
+    }
+    .cta-note {
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--mink);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--charcoal);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-brand {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: #fff;
+    }
+    .footer-brand span { color: var(--terra); }
+    .footer-sub {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-top: 6px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+    .footer-links a {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--terra); }
+    .footer-copy {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .nav-center { display: none; }
+
+      .hero-logo-panel { padding: 24px 36px; }
+      .hero-logo-panel img { width: clamp(200px, 72vw, 360px); }
+      .btn-wa-hero { padding: 16px 32px; font-size: 12px; }
+
+      .intro { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+      .portfolio { padding: 60px 24px 80px; }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 240px 180px 240px 180px 240px;
+      }
+      .g1 { grid-column: 1;     grid-row: 1; }
+      .g2 { grid-column: 2;     grid-row: 1; }
+      .g3 { grid-column: 1 / 3; grid-row: 2; }
+      .g4 { grid-column: 1;     grid-row: 3; }
+      .g5 { grid-column: 2;     grid-row: 3; }
+      .g6 { grid-column: 1 / 3; grid-row: 4; }
+      .g7 { grid-column: 1;     grid-row: 5; }
+      .g8 { grid-column: 2;     grid-row: 5; }
+      .g9 { display: none; }
+
+      .services { grid-template-columns: 1fr; padding: 48px 24px; }
+      .service-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 40px 0; }
+      .service-card:last-child { border-bottom: none; }
+
+      .locations { flex-direction: column; gap: 40px; padding: 60px 24px; }
+      .cta { padding: 100px 24px; }
+      footer { flex-direction: column; gap: 32px; text-align: center; padding: 40px 24px; }
+      .footer-links { justify-content: center; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Image loader: handles Unicode/# in filenames via encodeURIComponent ── -->
+  <script>
+    const _PHOTOS = {
+      'img-nav-logo':  'logo_muguerza.png',
+      'img-g1':        'fotos/fibras-1.jpg',
+      'img-g2':        'fotos/fibras-2.jpg',
+      'img-g3':        'fotos/clasico-2.jpg',
+      'img-g4':        'fotos/clasico-3.jpg',
+      'img-g5':        'fotos/clasico-4.jpg',
+      'img-g6':        'fotos/fibras-3.jpg',
+      'img-g7':        'fotos/clasico-5.jpg',
+      'img-g8':        'fotos/clasico-1.jpg',
+      'img-g9':        'fotos/mediterraneo-6.jpg',
+    };
+    function _src(path) { return path; }
+    document.addEventListener('DOMContentLoaded', () => {
+      Object.entries(_PHOTOS).forEach(([id, file]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.src = _src(file);
+        el.onerror = () => { el.style.display='none'; };
+        el.onload  = () => {
+          const info = el.closest('.photo')?.querySelector('.photo-slot-info');
+          if (info) info.style.display = 'none';
+        };
+      });
+    });
+  </script>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── Navigation ── -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <img id="img-nav-logo" alt="Muguerza Taller Estudio" style="height:56px;width:auto;object-fit:contain;display:block;">
+    </a>
+    <span class="nav-center">Madrid · Trabajamos en toda España</span>
+    <a href="https://wa.me/34652580043" target="_blank" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Solicitar presupuesto
+    </a>
+  </nav>
+
+  <!-- ── Hero vídeo ── -->
+  <section class="hero">
+    <!-- Vídeo de fondo -->
+    <video class="hero-video-bg" autoplay muted loop playsinline>
+      <source src="hero_video.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay oscuro -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenido: logo + botón -->
+    <div class="hero-content">
+      <div class="hero-logo-panel">
+        <img src="logo_muguerza.png" alt="Muguerza Taller Estudio" onerror="this.src='logo_muguerza.jpg'">
+      </div>
+
+      <a href="https://wa.me/34652580043" target="_blank" class="btn-wa-hero">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Cuéntanos tu proyecto
+      </a>
+    </div>
+
+    <!-- Indicador de scroll -->
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── Marquee ── -->
+  <div class="strip" aria-hidden="true">
+    <div class="strip-inner">
+      <span>Cortinas a medida</span><span class="dot">·</span>
+      <span>Estores romanos</span><span class="dot">·</span>
+      <span>Medición</span><span class="dot">·</span>
+      <span>Confección propia</span><span class="dot">·</span>
+      <span>Instalación</span><span class="dot">·</span>
+      <span>Madrid</span><span class="dot">·</span>
+      <span>Costa Mediterránea</span><span class="dot">·</span>
+      <span>Islas Baleares</span><span class="dot">·</span>
+      <span>Proyectos particulares</span><span class="dot">·</span>
+      <!-- duplicado para loop infinito -->
+      <span>Cortinas a medida</span><span class="dot">·</span>
+      <span>Estores romanos</span><span class="dot">·</span>
+      <span>Medición</span><span class="dot">·</span>
+      <span>Confección propia</span><span class="dot">·</span>
+      <span>Instalación</span><span class="dot">·</span>
+      <span>Madrid</span><span class="dot">·</span>
+      <span>Costa Mediterránea</span><span class="dot">·</span>
+      <span>Islas Baleares</span><span class="dot">·</span>
+      <span>Proyectos particulares</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <!-- ── Intro ── -->
+  <section class="intro">
+    <div class="intro-quote reveal">
+      Tela, luz y <em>proporción.</em><br>
+      El resto es silencio.
+    </div>
+    <div class="intro-body reveal reveal-delay-2">
+      <p>
+        Somos un <strong>taller artesanal</strong> especializado en cortinas y estores a medida. Trabajamos con interioristas, arquitectos y propietarios que entienden que el detalle lo es todo.
+      </p>
+      <p>
+        Desde la primera visita hasta la instalación, <strong>cada proyecto es único.</strong> Seleccionamos las telas, calculamos la caída exacta y confeccionamos en nuestro propio taller.
+      </p>
+      <div class="intro-stats">
+        <div>
+          <div class="stat-n">30<sup>+</sup></div>
+          <div class="stat-label">Años de oficio</div>
+        </div>
+        <div>
+          <div class="stat-n">400<sup>+</sup></div>
+          <div class="stat-label">Proyectos realizados</div>
+        </div>
+        <div>
+          <div class="stat-n">100<sup>%</sup></div>
+          <div class="stat-label">Confección propia</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Portfolio ── -->
+  <section class="portfolio" id="portfolio">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-title">Nuestro trabajo</p>
+        <h2 class="section-label">Proyectos</h2>
+      </div>
+      <a href="https://www.instagram.com/muguerza.decor" target="_blank" class="section-link">Ver Instagram →</a>
+    </div>
+
+    <div class="grid">
+      <div class="photo ph-1 g1 reveal">
+        <img id="img-g1" alt="Estor Romano · Madrid">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Fibras naturales · Estor romano</div>
+      </div>
+
+      <div class="photo ph-2 g2 reveal reveal-delay-1">
+        <img id="img-g2" alt="Estor Lino · Baño">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Estor Lino · Proyecto residencial</div>
+      </div>
+
+      <div class="photo ph-3 g3 reveal reveal-delay-2">
+        <img id="img-g3" alt="Cortinas lino · Madrid">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Clásico y moderno · Madrid</div>
+      </div>
+
+      <div class="photo ph-4 g4 reveal">
+        <img id="img-g4" alt="Cortinas taupe · Salón">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Lino Taupe · Madrid</div>
+      </div>
+
+      <div class="photo ph-5 g5 reveal reveal-delay-1">
+        <img id="img-g5" alt="Cortinas lino clásico · Madrid">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Clásico y moderno · Madrid</div>
+      </div>
+
+      <div class="photo ph-6 g6 reveal reveal-delay-2">
+        <img id="img-g6" alt="Fibras naturales · Estor">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Fibras naturales · Estor</div>
+      </div>
+
+      <div class="photo ph-7 g7 reveal">
+        <img id="img-g7" alt="Cortinas lino · Madrid">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Lino y oscuridad · Madrid</div>
+      </div>
+
+      <div class="photo ph-8 g8 reveal reveal-delay-1">
+        <img id="img-g8" alt="Salón cortinas pared entera">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Lino Taupe · Proyecto Madrid</div>
+      </div>
+
+      <div class="photo ph-1 g9 reveal reveal-delay-2">
+        <img id="img-g9" alt="Cortinas blancas mediterráneo">
+        <div class="photo-slot-info"><span>Cargando…</span></div>
+        <div class="photo-label">Lino blanco · Costa Mediterránea</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services ── -->
+  <section class="services">
+    <div class="service-card reveal">
+      <span class="service-number">01</span>
+      <h3 class="service-name">Medición<br>&amp; Consulta</h3>
+      <p class="service-desc">Visitamos tu espacio, tomamos medidas con precisión y asesoramos sobre telas, sistemas y soluciones de montaje. Sin compromiso.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <span class="service-number">02</span>
+      <h3 class="service-name">Confección<br>propia</h3>
+      <p class="service-desc">Todo se confecciona en nuestro taller. Controlamos cada costura, cada pliegue y cada acabado. Solo así garantizamos el resultado final.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <span class="service-number">03</span>
+      <h3 class="service-name">Instalación<br>&amp; Entrega</h3>
+      <p class="service-desc">Instalamos con los sistemas adecuados para cada espacio: raíles, barras, motorizaciones. El proyecto no termina hasta que estás satisfecho.</p>
+    </div>
+  </section>
+
+  <!-- ── Locations ── -->
+  <section class="locations">
+    <div class="reveal">
+      <p class="location-title">Dónde trabajamos</p>
+      <h2 class="location-cities">
+        Madrid<br>
+        <em>Costa</em><br>
+        Mediterránea<br>
+        Baleares
+      </h2>
+    </div>
+    <p class="location-body reveal reveal-delay-2">
+      Nuestro taller está en Madrid, pero llevamos proyectos a toda España. Hemos trabajado en Ibiza, Mallorca, Valencia, Marbella y más. <br><br>
+      Escríbenos y valoramos juntos la viabilidad de tu proyecto, sin importar la ubicación.
+    </p>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta">
+    <p class="cta-tag reveal">¿Tienes un proyecto?</p>
+    <h2 class="cta-heading reveal reveal-delay-1">
+      Cuéntanos<br><em>tu espacio.</em>
+    </h2>
+    <p class="cta-sub reveal reveal-delay-2">Respuesta en menos de 24 horas</p>
+    <a href="https://wa.me/34652580043" target="_blank" class="btn-whatsapp-lg reveal reveal-delay-3">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Escribir por WhatsApp
+    </a>
+    <p class="cta-note reveal reveal-delay-4">+34 652 580 043 · @muguerza.decor</p>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div>
+      <div class="footer-brand">MU<span>G</span>UERZA</div>
+      <div class="footer-sub">Taller · Estudio · Madrid</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/muguerza.decor" target="_blank">Instagram</a>
+      <a href="https://wa.me/34652580043" target="_blank">WhatsApp</a>
+    </div>
+    <span class="footer-copy">© 2025 Muguerza Taller Estudio</span>
+  </footer>
+
+  <script>
+    // ── Custom cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    (function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+
+    // ── Scroll reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Force-reveal elements already in viewport on load
+    setTimeout(() => {
+      revealEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) el.classList.add('visible');
+      });
+    }, 100);
+
+    // ── Nav scroll behavior ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+  </script>
+</body>
+</html>
