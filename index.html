@@ -118,7 +118,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 22px 48px;
+      padding: 12px 48px;
       mix-blend-mode: multiply;
       transition: background 0.4s;
     }
@@ -137,8 +137,8 @@
     .nav-logo img { filter: none; transition: opacity 0.3s; }
     .nav-logo img:hover { opacity: 0.75; }
     .nav-center {
-      font-size: 11px;
-      letter-spacing: 0.22em;
+      font-size: 13px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--mink);
     }
@@ -226,8 +226,8 @@
       text-decoration: none;
       padding: 18px 44px;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      letter-spacing: 0.25em;
+      font-size: 16px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       font-weight: 500;
       transition: background 0.35s, color 0.35s, transform 0.35s, box-shadow 0.35s;
@@ -390,6 +390,29 @@
       font-size: 11px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
+      color: var(--mink);
+      margin-top: 4px;
+    }
+    .stat-n--text {
+      font-size: clamp(22px, 2.2vw, 30px);
+      font-weight: 500;
+      height: 42px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .intro-sub {
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 300;
+      font-style: normal;
+      line-height: 1.65;
+      color: var(--mink);
+      margin-top: 20px;
+    }
+    .intro-stats-note {
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
       color: var(--mink);
       margin-top: 4px;
     }
@@ -579,6 +602,12 @@
       font-style: italic;
       color: var(--terra);
     }
+    .cta-body {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--mink);
+      margin-bottom: 12px;
+    }
     .cta-sub {
       font-size: 20px;
       font-weight: 300;
@@ -612,6 +641,108 @@
       letter-spacing: 0.1em;
     }
 
+    /* ── Benefits ── */
+    .benefits {
+      background: var(--linen-dk);
+      padding: 72px 48px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    .benefit-item {
+      flex: 1;
+      max-width: 200px;
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid rgba(0,0,0,0.08);
+    }
+    .benefit-item:last-child { border-right: none; }
+    .benefit-icon {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--terra);
+      line-height: 1;
+    }
+    .benefit-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+    .benefit-desc {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--mink);
+      line-height: 1.6;
+    }
+
+    /* ── Testimonials ── */
+    .testimonials {
+      background: var(--cream);
+      padding: 96px 48px;
+      text-align: center;
+    }
+    .testimonials-tag {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mink);
+      margin-bottom: 56px;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .testimonial-card {
+      background: var(--linen);
+      padding: 36px 32px;
+      text-align: left;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--terra);
+      opacity: 0.35;
+      position: absolute;
+      top: 12px;
+      left: 28px;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 17px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--charcoal);
+      padding-top: 28px;
+      margin-bottom: 20px;
+    }
+    .testimonial-author {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mink);
+    }
+
+    /* ── CTA lead filter ── */
+    .cta-filter {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+      margin-top: 20px;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
     /* ── Footer ── */
     footer {
       background: var(--charcoal);
@@ -621,18 +752,27 @@
       justify-content: space-between;
     }
     .footer-brand {
-      font-size: 18px;
+      font-size: 28px;
       font-weight: 400;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       color: #fff;
     }
-    .footer-brand span { color: var(--terra); }
+    .footer-brand span { color: #C8763A; }
     .footer-sub {
       font-size: 10px;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.3);
       margin-top: 6px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.45);
+      margin-top: 12px;
+      max-width: 360px;
+      line-height: 1.6;
     }
     .footer-links {
       display: flex;
@@ -684,6 +824,11 @@
       .service-card:last-child { border-bottom: none; }
 
       .locations { flex-direction: column; gap: 40px; padding: 60px 24px; }
+      .benefits { flex-wrap: wrap; padding: 56px 24px; gap: 32px; }
+      .benefit-item { max-width: 45%; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 24px; }
+      .benefit-item:nth-child(5) { border-bottom: none; max-width: 100%; }
+      .testimonials { padding: 72px 24px; }
+      .testimonials-grid { grid-template-columns: 1fr; gap: 24px; }
       .cta { padding: 100px 24px; }
       footer { flex-direction: column; gap: 32px; text-align: center; padding: 40px 24px; }
       .footer-links { justify-content: center; flex-wrap: wrap; }
@@ -728,15 +873,9 @@
   <!-- ── Navigation ── -->
   <nav id="nav">
     <a href="#" class="nav-logo">
-      <img id="img-nav-logo" alt="Muguerza Taller Estudio" style="height:56px;width:auto;object-fit:contain;display:block;">
+      <img id="img-nav-logo" alt="Muguerza Taller Estudio" style="height:96px;width:auto;object-fit:contain;display:block;">
     </a>
-    <span class="nav-center">Madrid · Trabajamos en toda España</span>
-    <a href="https://wa.me/34652580043" target="_blank" class="nav-cta">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-      Solicitar presupuesto
-    </a>
+    <span class="nav-center">Madrid · proyectos residenciales y profesionales en toda España</span>
   </nav>
 
   <!-- ── Hero vídeo ── -->
@@ -774,54 +913,53 @@
   <div class="strip" aria-hidden="true">
     <div class="strip-inner">
       <span>Cortinas a medida</span><span class="dot">·</span>
-      <span>Estores romanos</span><span class="dot">·</span>
-      <span>Medición</span><span class="dot">·</span>
-      <span>Confección propia</span><span class="dot">·</span>
-      <span>Instalación</span><span class="dot">·</span>
-      <span>Madrid</span><span class="dot">·</span>
-      <span>Costa Mediterránea</span><span class="dot">·</span>
-      <span>Islas Baleares</span><span class="dot">·</span>
-      <span>Proyectos particulares</span><span class="dot">·</span>
+      <span>Estores</span><span class="dot">·</span>
+      <span>Tapicería</span><span class="dot">·</span>
+      <span>Confección</span><span class="dot">·</span>
+      <span>Instalación cuidada</span><span class="dot">·</span>
+      <span>Proyectos residenciales</span><span class="dot">·</span>
+      <span>Interioristas y particulares</span><span class="dot">·</span>
+      <span>Madrid y toda España</span><span class="dot">·</span>
       <!-- duplicado para loop infinito -->
       <span>Cortinas a medida</span><span class="dot">·</span>
-      <span>Estores romanos</span><span class="dot">·</span>
-      <span>Medición</span><span class="dot">·</span>
-      <span>Confección propia</span><span class="dot">·</span>
-      <span>Instalación</span><span class="dot">·</span>
-      <span>Madrid</span><span class="dot">·</span>
-      <span>Costa Mediterránea</span><span class="dot">·</span>
-      <span>Islas Baleares</span><span class="dot">·</span>
-      <span>Proyectos particulares</span><span class="dot">·</span>
+      <span>Estores</span><span class="dot">·</span>
+      <span>Tapicería</span><span class="dot">·</span>
+      <span>Confección</span><span class="dot">·</span>
+      <span>Instalación cuidada</span><span class="dot">·</span>
+      <span>Proyectos residenciales</span><span class="dot">·</span>
+      <span>Interioristas y particulares</span><span class="dot">·</span>
+      <span>Madrid y toda España</span><span class="dot">·</span>
     </div>
   </div>
 
   <!-- ── Intro ── -->
   <section class="intro">
     <div class="intro-quote reveal">
-      Tela, luz y <em>proporción.</em><br>
-      El resto es silencio.
+      Cada espacio tiene su manera de vestirse. <em>Nosotros nos encargamos de dar con ella.</em>
+      <p class="intro-sub">Asesoramos, confeccionamos e instalamos cada proyecto a medida para que el resultado encaje con tu espacio, tu estilo y tu forma de vivirlo.</p>
     </div>
     <div class="intro-body reveal reveal-delay-2">
       <p>
-        Somos un <strong>taller artesanal</strong> especializado en cortinas y estores a medida. Trabajamos con interioristas, arquitectos y propietarios que entienden que el detalle lo es todo.
+        Somos un <strong>taller artesanal</strong> especializado en soluciones textiles a medida para espacios donde el detalle importa. Trabajamos con interioristas, arquitectos y propietarios que buscan un acabado impecable.
       </p>
       <p>
-        Desde la primera visita hasta la instalación, <strong>cada proyecto es único.</strong> Seleccionamos las telas, calculamos la caída exacta y confeccionamos en nuestro propio taller.
+        Te ayudamos a encontrar la solución adecuada para tu espacio y la llevamos a cabo de principio a fin, cuidando cada detalle para que el resultado esté a la altura.
       </p>
       <div class="intro-stats">
         <div>
           <div class="stat-n">30<sup>+</sup></div>
-          <div class="stat-label">Años de oficio</div>
+          <div class="stat-label">Años de experiencia</div>
         </div>
         <div>
-          <div class="stat-n">400<sup>+</sup></div>
+          <div class="stat-n">3000<sup>+</sup></div>
           <div class="stat-label">Proyectos realizados</div>
         </div>
         <div>
-          <div class="stat-n">100<sup>%</sup></div>
-          <div class="stat-label">Confección propia</div>
+          <div class="stat-n stat-n--text">Cada detalle</div>
+          <div class="stat-label">Bajo control</div>
         </div>
       </div>
+      <p class="intro-stats-note">Experiencia, control del proceso y un resultado cuidado en cada instalación.</p>
     </div>
   </section>
 
@@ -896,18 +1034,47 @@
   <section class="services">
     <div class="service-card reveal">
       <span class="service-number">01</span>
-      <h3 class="service-name">Medición<br>&amp; Consulta</h3>
-      <p class="service-desc">Visitamos tu espacio, tomamos medidas con precisión y asesoramos sobre telas, sistemas y soluciones de montaje. Sin compromiso.</p>
+      <h3 class="service-name">Medición<br>&amp; Asesoramiento</h3>
+      <p class="service-desc">Visitamos tu espacio, tomamos medidas con precisión y te ayudamos a elegir tejidos, sistemas y acabados según la luz, el uso y el estilo del proyecto.</p>
     </div>
     <div class="service-card reveal reveal-delay-1">
       <span class="service-number">02</span>
-      <h3 class="service-name">Confección<br>propia</h3>
-      <p class="service-desc">Todo se confecciona en nuestro taller. Controlamos cada costura, cada pliegue y cada acabado. Solo así garantizamos el resultado final.</p>
+      <h3 class="service-name">Desarrollo<br>&amp; Confección</h3>
+      <p class="service-desc">Cada proyecto se desarrolla a medida, cuidando proporciones, acabados y cada detalle necesario para que el resultado esté a la altura del espacio.</p>
     </div>
     <div class="service-card reveal reveal-delay-2">
       <span class="service-number">03</span>
-      <h3 class="service-name">Instalación<br>&amp; Entrega</h3>
-      <p class="service-desc">Instalamos con los sistemas adecuados para cada espacio: raíles, barras, motorizaciones. El proyecto no termina hasta que estás satisfecho.</p>
+      <h3 class="service-name">Instalación<br>final</h3>
+      <p class="service-desc">Instalamos el sistema adecuado para cada proyecto y cuidamos el resultado hasta el último ajuste, para que todo quede resuelto como debe.</p>
+    </div>
+  </section>
+
+  <!-- ── Benefits ── -->
+  <section class="benefits" aria-label="Por qué elegirnos">
+    <div class="benefit-item reveal">
+      <div class="benefit-icon">—</div>
+      <div class="benefit-name">Asesoramiento</div>
+      <div class="benefit-desc">Te ayudamos a elegir sin presión ni tecnicismos</div>
+    </div>
+    <div class="benefit-item reveal reveal-delay-1">
+      <div class="benefit-icon">—</div>
+      <div class="benefit-name">Tranquilidad</div>
+      <div class="benefit-desc">Gestionamos el proceso de principio a fin</div>
+    </div>
+    <div class="benefit-item reveal reveal-delay-2">
+      <div class="benefit-icon">—</div>
+      <div class="benefit-name">Precisión</div>
+      <div class="benefit-desc">Cada medida y cada acabado calculados al detalle</div>
+    </div>
+    <div class="benefit-item reveal reveal-delay-3">
+      <div class="benefit-icon">—</div>
+      <div class="benefit-name">Resultado impecable</div>
+      <div class="benefit-desc">Confección propia que se nota en el acabado final</div>
+    </div>
+    <div class="benefit-item reveal reveal-delay-4">
+      <div class="benefit-icon">—</div>
+      <div class="benefit-name">Acompañamiento</div>
+      <div class="benefit-desc">Estamos disponibles en cada fase del proyecto</div>
     </div>
   </section>
 
@@ -916,37 +1083,56 @@
     <div class="reveal">
       <p class="location-title">Dónde trabajamos</p>
       <h2 class="location-cities">
-        Madrid<br>
-        <em>Costa</em><br>
-        Mediterránea<br>
-        Baleares
+        Trabajamos desde Madrid en proyectos de <em>toda España</em>
       </h2>
     </div>
     <p class="location-body reveal reveal-delay-2">
-      Nuestro taller está en Madrid, pero llevamos proyectos a toda España. Hemos trabajado en Ibiza, Mallorca, Valencia, Marbella y más. <br><br>
-      Escríbenos y valoramos juntos la viabilidad de tu proyecto, sin importar la ubicación.
+      Desarrollamos proyectos en distintas ciudades y destinos de España, siempre con la misma atención al detalle y al resultado final.<br><br>
+      Si tienes un proyecto en mente, escríbenos y vemos contigo la mejor forma de hacerlo realidad.
     </p>
+  </section>
+
+  <!-- ── Testimonials ── -->
+  <section class="testimonials">
+    <p class="testimonials-tag reveal">Lo que dicen quienes han trabajado con nosotros</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">Nos asesoraron fenomenal desde el principio y el resultado quedó exactamente como lo imaginábamos. Se nota que saben lo que hacen.</p>
+        <p class="testimonial-author">Propietaria · Proyecto residencial, Madrid</p>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-text">Se nota el oficio en cada detalle. Las proporciones, la caída, el acabado… Todo transmite cuidado y calidad. Repetiría sin dudar.</p>
+        <p class="testimonial-author">Interiorista · Proyecto en Ibiza</p>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-text">El proceso fue muy fácil y claro de principio a fin. El acabado fue espectacular. Exactamente lo que buscábamos para el espacio.</p>
+        <p class="testimonial-author">Arquitecto · Proyecto en Valencia</p>
+      </div>
+    </div>
   </section>
 
   <!-- ── CTA ── -->
   <section class="cta">
-    <p class="cta-tag reveal">¿Tienes un proyecto?</p>
+    <p class="cta-tag reveal">¿Tienes un proyecto en mente?</p>
     <h2 class="cta-heading reveal reveal-delay-1">
-      Cuéntanos<br><em>tu espacio.</em>
+      Cuéntanos qué necesitas<br><em>y te orientamos.</em>
     </h2>
+    <p class="cta-body reveal reveal-delay-2">Sobre la mejor solución para tu espacio.</p>
     <p class="cta-sub reveal reveal-delay-2">Respuesta en menos de 24 horas</p>
     <a href="https://wa.me/34652580043" target="_blank" class="btn-whatsapp-lg reveal reveal-delay-3">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Escribir por WhatsApp
     </a>
+    <p class="cta-filter reveal reveal-delay-4">Cuéntanos una idea general de tu proyecto, la ubicación y el tipo de solución que estás valorando. Con eso ya podemos orientarte.</p>
     <p class="cta-note reveal reveal-delay-4">+34 652 580 043 · @muguerza.decor</p>
   </section>
 
   <!-- ── Footer ── -->
   <footer>
     <div>
-      <div class="footer-brand">MU<span>G</span>UERZA</div>
+      <div class="footer-brand">MUGUE<span>R</span>ZA</div>
       <div class="footer-sub">Taller · Estudio · Madrid</div>
+      <div class="footer-tagline">Cortinas, estores y soluciones a medida para espacios donde el detalle importa.</div>
     </div>
     <div class="footer-links">
       <a href="https://www.instagram.com/muguerza.decor" target="_blank">Instagram</a>
